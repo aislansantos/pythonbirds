@@ -15,5 +15,11 @@ if __name__ == '__main__':
     print(id(aislan))
     print(aislan.cumprimentar())
     print(aislan.nome)
+    # atributo coplexo
     for filho in aislan.filhos:
         print(filho.nome)
+    #atributo dinamico - não é uma pratica ficar criando atributo dinamico, podendo ser usado somente em alguns casos específicos
+    aislan.sobrenome = 'Santos'
+    del aislan.filhos
+    print(aislan.__dict__)
+    print(augusto.__dict__)
