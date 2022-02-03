@@ -1,5 +1,8 @@
 
 class Pessoa: # nome de classe segundo a pep8 usa-se CamelCase
+    olhos = 2
+
+
     def __init__(self,*filhos, nome = None, idade = 35):
         self.idade = idade
         self.nome = nome
@@ -23,3 +26,6 @@ if __name__ == '__main__':
     del aislan.filhos
     print(aislan.__dict__)
     print(augusto.__dict__)
+    print(Pessoa.olhos)
+    print(aislan.olhos)
+    print(augusto.olhos)
