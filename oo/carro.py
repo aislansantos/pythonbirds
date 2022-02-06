@@ -43,54 +43,78 @@ Ela oferece os seguintes atributos
 
     #Testando Direção
     >>> direcao = Direcao()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Norte'
     >>> direcao.girar_a_direita()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Leste'
     >>> direcao.girar_a_direita()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Sul'
     >>> direcao.girar_a_direita()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Oeste'
     >>> direcao.girar_a_direita()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Norte'
     >>> direcao.girar_a_esquerda()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Oeste'
     >>> direcao.girar_a_esquerda()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Sul'
     >>> direcao.girar_a_esquerda()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Leste'
     >>> direcao.girar_a_esquerda()
-    >>> direcao.rumo
+    >>> direcao.valor
     'Norte'
 
+    # Testando Carro
     >>> carro = Carro()
     >>> carro.calcular_velocidade()
-    4
+    0
     >>> carro.acelerar()
     >>> carro.calcular_velocidade()
-    5
+    1
     >>> carro.acelerar()
     >>> carro.calcular_velocidade()
-    6
+    2
     >>> carro.frear()
     >>> carro.calcular_velocidade()
-    4
+    0
     >>> carro.calcular_direcao()
-    'Leste'
+    'Norte'
     >>> carro.girar_a_direita()
     >>> carro.calcular_direcao()
-    'Sul'
+    'Leste'
     >>> carro.girar_a_esquerda()
     >>> carro.calcular_direcao()
-    'Leste'
+    'Norte'
 """
+NORTE = 'Norte'
+SUL = 'Sul'
+LESTE = 'Leste'
+OESTE = 'Oeste'
+
+
+class Direcao:
+    rotacao_a_direita_dct = {
+        NORTE: LESTE, LESTE: SUL, SUL: OESTE, OESTE: NORTE
+    }
+    rotacao_a_esquerda_dct = {
+        NORTE: OESTE, LESTE: NORTE, SUL: LESTE, OESTE: SUL
+    }
+
+    def __init__(self):
+        self.valor = NORTE
+
+    def girar_a_direita(self):
+        self.valor = self.rotacao_a_direita_dct[self.valor]
+
+    def girar_a_esquerda(self):
+        self.valor = self.rotacao_a_esquerda_dct[self.valor]
+
 
 class Motor:
     def __init__(self, ):
@@ -101,47 +125,17 @@ class Motor:
         self.velocidade
 
     def frear(self):
-        if self.velocidade <= 0:
-            print('carro ja está parado !')
-        elif self.velocidade == 1:
-            self.velocidade -= 1
-        else:
-            self.velocidade -= 2
-
-
-class Direcao:
-    def __init__(self):
-        self.direcoes = ['Norte','Leste','Sul','Oeste']
-        self.rumo = self.direcoes[0]
-
-    def girar_a_direita(self):
-        if self.rumo == self.direcoes[0]:
-            self.rumo = self.direcoes[1]
-        elif self.rumo == self.direcoes[1]:
-            self.rumo = self.direcoes[2]
-        elif self.rumo == self.direcoes[2]:
-            self.rumo = self.direcoes[3]
-        else:
-            self.rumo = self.direcoes[0]
-
-    def girar_a_esquerda(self):
-        if self.rumo == self.direcoes[0]:
-            self.rumo = self.direcoes[3]
-        elif self.rumo == self.direcoes[3]:
-            self.rumo = self.direcoes[2]
-        elif self.rumo == self.direcoes[2]:
-            self.rumo = self.direcoes[1]
-        else:
-            self.rumo = self.direcoes[0]
+        self.velocidade -= 2
+        self.velocidade = max(0, self.velocidade)
 
 
 class Carro:
-    def __init__(self, motor = Motor(), direcao = Direcao() ):
-        self.motor = motor
+    def __init__(self, motor=Motor(), direcao=Direcao()):
         self.direcao = direcao
+        self.motor = motor
 
     def acelerar(self):
-         return self.motor.acelerar()
+        return self.motor.acelerar()
 
     def frear(self):
         return self.motor.frear()
@@ -156,15 +150,4 @@ class Carro:
         return self.direcao.girar_a_esquerda()
 
     def calcular_direcao(self):
-       return self.direcao.rumo
-
-
-carro = Carro()
-print(carro.calcular_direcao())
-carro.girar_a_direita()
-print(carro.calcular_direcao())
-carro.acelerar()
-carro.acelerar()
-carro.acelerar()
-carro.acelerar()
-print(carro.calcular_velocidade())
+        return self.direcao.valor
